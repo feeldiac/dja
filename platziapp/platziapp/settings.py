@@ -29,14 +29,16 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+# Apps installed*
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    "polls.apps.PollsConfig",
+    'django.contrib.admin', # Admin data
+    'django.contrib.auth', # User Authentication
+    'django.contrib.contenttypes', # Manage file formats
+    'django.contrib.sessions', # Manage sessions
+    'django.contrib.messages', # Manage messages between users
+    'django.contrib.staticfiles', # Manage static files
 ]
 
 MIDDLEWARE = [
@@ -73,10 +75,12 @@ WSGI_APPLICATION = 'platziapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# Use relational databses
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3', # Should be the real name of the db
+        # User, password
     }
 }
 
@@ -105,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 
