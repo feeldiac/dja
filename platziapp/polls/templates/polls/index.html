@@ -1,0 +1,12 @@
+{% if latest_question_list %}
+    <ul>
+        {% for question in latest_question_list %}
+            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+            {% comment %} url 'app_name:named_url' query_param 
+            https://docs.djangoproject.com/en/4.0/topics/http/urls/#url-namespaces
+            {% endcomment %}
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
