@@ -1,9 +1,10 @@
+from ast import arg
 import datetime
 from urllib import response
 from django.test import TestCase
 from django.utils import timezone
 from django.urls.base import reverse
-from .models import Question
+from .models import Question, Choice
 
 class QuestionModelTests(TestCase):
 
@@ -127,3 +128,36 @@ class QuestionIndexViewTests(TestCase):
             question = create_question(question_text=f'Lorem {n}', days= -1 * n)
         response = self.client.get(reverse("polls:index"))    
         self.assertEqual(len(response.context["latest_question_list"]), 5)
+
+class QuestionDetailViewTests(TestCase):
+    def test_future_question(self):
+        """
+        The detail view of a question with a pub_date in the future returns a 404 error not found.
+        """
+        future_question = create_question(question_text="future lorem", days=15)
+        url = reverse("polls:detail", args=(future_question.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_past_question(self):
+        """
+        The detail view of a question with pub_date in the past displays the queston's text
+        """
+        past_question = create_question(question_text="past lorem", days=-15)
+        url = reverse("polls:detail", args=(past_question.id,))
+        response = self.client.get(url)
+        # En el texto de la response debe existir el texto de la pregunta past_question, es decir debería verse en pantalla
+        self.assertContains(response, past_question.question_text)
+
+# class QuestionResultViewTests(TestCase):
+
+#     def create_question_without_choices(self):
+#         """
+#         Users shouldn't be able to create a question without defining at least two choice options
+#         """
+#         past_question = create_question(question_text="past lorem", days=-15)
+#         # choices_count = past_question.choice_set.all().count()
+#         response = self.client.get(reverse("polls:index"))
+#         choices = response.context["latest_question_list"]
+#         print(choices)
+#         self.assertNotEqual(len(choices), 0)

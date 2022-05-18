@@ -16,9 +16,21 @@ class Question(models.Model):
     def was_published_recently(self):
         return timezone.now() >= self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
+# class Question(models.Model):
+#     # id el campo ID no es necesario porque Django la crea por nosotros.
+#     question_text = models.CharField(max_length=200)
+#     pub_date = models.DateTimeField("date published")
+
+#     def save(self, *args, **kwargs):
+#         super().save(*args, **kwargs)
+
+#         if self.choice_set.all().count() == 0:
+#             super().delete()
+#             raise Exception("Question must have at least one choice")
+
 class Choice(models.Model):
     # Cuando borramos una pregunta, se borran en cascada las choices que tenga
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='choice')
     choice_text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
 
