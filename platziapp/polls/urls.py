@@ -15,6 +15,4 @@ urlpatterns = [
     path("<int:pk>/", DetailView.as_view(), name="detail"), #/polls/5/
     path("<int:pk>/result/", ResultView.as_view(), name="result"), #/polls/5/results/
     path("<int:question_id>/vote/", vote, name="vote"), #/polls/5/votes/
-    
-    
 ]
