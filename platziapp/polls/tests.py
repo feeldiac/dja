@@ -151,11 +151,10 @@ class QuestionDetailViewTests(TestCase):
 
 class QuestionResultViewTests(TestCase):
 
-    def create_question_without_choices(self):
+    def test_create_question_without_choices(self):
         """
         Users shouldn't be able to create a question without defining at least two choice options
         """
         past_question = create_question(question_text="past lorem", days=-15)
-        response = self.client.get(reverse("polls:index"))
-        choices = response.context["latest_question_list"].choice_set.count()
-        self.assertEqual(len(response.context["latest_question_list"]), 0)
+        choices_count = len(past_question.choice_set.all())
+        self.assertNotEqual(choices_count, 0)
